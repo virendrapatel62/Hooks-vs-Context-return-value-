@@ -52,6 +52,8 @@ export default function App() {
   };
   return (
     <TranslationContext.Provider value={t}>
+      <h1>Open Console</h1>
+      <hr />
       <A />
       <hr />
       <B />

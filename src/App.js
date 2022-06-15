@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import './style.css';
 
-const context = React.createContext();
+const TranslationContext = React.createContext();
 
-function useStudent() {
-  return {
-    name: 'useStudent Name ',
-    age: 25,
+function useTranslation() {
+  return () => {
+    console.log('Translation Function from hook');
   };
 }
 
@@ -14,13 +13,17 @@ let AContext, BContext;
 let AHook, BHook;
 
 function A() {
-  AContext = useContext(context);
-  AHook = useStudent();
+  AContext = useContext(TranslationContext);
+  AHook = useTranslation();
+
+  AContext();
+  AHook();
+
   return JSON.stringify({ AContext, AHook });
 }
 function B() {
-  BContext = useContext(context);
-  BHook = useStudent();
+  BContext = useContext(TranslationContext);
+  BHook = useTranslation();
   console.log({
     AContext,
     BContext,
@@ -28,20 +31,21 @@ function B() {
     areEqualHooksValues: AHook == BHook,
   });
 
+  BContext();
+  BHook();
+
   return JSON.stringify({ BContext, BHook });
 }
 
 export default function App() {
-  const value = {
-    name: 'virendra',
-    age: 23,
+  const t = () => {
+    console.log('Translation function from context ');
   };
   return (
-    <context.Provider value={value}>
-      <h1>Hello StackBlitz!</h1>
+    <TranslationContext.Provider value={t}>
       <A />
+      <hr />
       <B />
-      <p>Start editing to see some magic happen :)</p>
-    </context.Provider>
+    </TranslationContext.Provider>
   );
 }

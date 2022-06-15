@@ -8,33 +8,42 @@ function useTranslation() {
     console.log('Translation Function from hook');
   };
 }
+function useTranslationUsingContext() {
+  return useContext(TranslationContext);
+}
 
 let AContext, BContext;
 let AHook, BHook;
 
 function A() {
-  AContext = useContext(TranslationContext);
+  console.log('Rendring A');
+  AContext = useTranslationUsingContext();
   AHook = useTranslation();
 
   AContext();
   AHook();
 
-  return JSON.stringify({ AContext, AHook });
+  return 'A Component';
 }
 function B() {
-  BContext = useContext(TranslationContext);
+  console.log('Rendring B');
+
+  BContext = useTranslationUsingContext();
   BHook = useTranslation();
+
   console.log({
     AContext,
+    AHook,
     BContext,
-    areEqual: AContext == BContext,
+    BHook,
+    areEqualUsingContextHook: AContext == BContext,
     areEqualHooksValues: AHook == BHook,
   });
 
   BContext();
   BHook();
 
-  return JSON.stringify({ BContext, BHook });
+  return 'B Component';
 }
 
 export default function App() {
